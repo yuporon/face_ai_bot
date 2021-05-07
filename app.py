@@ -82,10 +82,10 @@ def handle_image(event):
 			if valified:
 				if valified.is_identical:
 					# 顔認証が一致した場合（スコアもつけて返す）
-					text = '{:.3f*100}％！！あなたは吉沢亮様！？'.format(valified.confidence)
+					text = '{:.3f*100}％！！\nあなたは吉沢亮様！？'.format(valified.confidence)
 				else:
 					# 顔認証が一致した場合（スコアもつけて返す）
-					text = '{:.3f*100}％？？吉沢亮様じゃないね'.format(valified.confidence)
+					text = '{:.3f*100}％？？\n吉沢亮様じゃないね。。。'.format(valified.confidence)
 			else:
 				text = '識別できませんでした。'
 		else:
