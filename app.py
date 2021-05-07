@@ -29,7 +29,7 @@ face_client = FaceClient(
 )
 
 PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
-PERSON_ID_AUDREY = os.getenv('PERSON_ID_AUDREY')
+PERSON_ID_YOSIZAWA = os.getenv('PERSON_ID_YOSIZAWA')
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -76,7 +76,7 @@ def handle_image(event):
 			valified = face_client.face.verify_face_to_person(
 				face_id = detected_faces[0].face_id,
 				person_group_id = PERSON_GROUP_ID,
-				person_id = PERSON_ID_AUDREY
+				person_id = PERSON_ID_YOSIZAWA
 			)
 			# 認証結果に応じて処理を変える
 			if valified:
