@@ -30,6 +30,8 @@ face_client = FaceClient(
 PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
 PERSON_ID_YOSIZAWA = os.getenv('PERSON_ID_YOSIZAWA')
 
+NUM = 100
+
 @app.route("/callback", methods=['POST'])
 def callback():
 	# get X-Line-Signature header value
@@ -78,8 +80,8 @@ def handle_image(event):
             )
             # 認証結果に応じて処理を変える
             if valified:
-				score = valified.confidence * 100
-                if valified.is_identical:
+				score = round(float(valified.confidenc), 3) * int(NUM)
+				if valified.is_identical:
                     # 顔認証が一致した場合（スコアもつけて返す）
                     text = 'スコア{:.3f}％\nあなたは吉沢亮ですね'.format(score)
                 else:
