@@ -77,7 +77,7 @@ def handle_image(event):
             text = "no faces detected"
     except:
         # エラー時のメッセージ
-        text = "error" 
+        text = "error!!" 
     # LINEチャネルを通じてメッセージを返答
     line_bot_api.reply_message(
         event.reply_token,       
