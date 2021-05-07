@@ -85,10 +85,10 @@ def handle_image(event):
 					# 顔認証が一致した場合（スコアもつけて返す）
 					text = 'この方は吉沢亮様ではありません\nスコア{:.3f}'.format(valified.confidence)
 			else:
-				text = "写真から顔が検出できませんでした。他の画像で試してください。"
+				text = '識別できませんでした。'
 		else:
 			# 検出されない場合のメッセージ
-			text = "no faces detected"
+			text = "写真から顔が検出できませんでした。他の画像で試してください。"
 	except:
 		# エラー時のメッセージ
 		text = "error" 
