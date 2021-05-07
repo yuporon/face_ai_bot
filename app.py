@@ -30,8 +30,6 @@ face_client = FaceClient(
 PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
 PERSON_ID_YOSIZAWA = os.getenv('PERSON_ID_YOSIZAWA')
 
-NUM = 100
-
 @app.route("/callback", methods=['POST'])
 def callback():
 	# get X-Line-Signature header value
@@ -60,25 +58,43 @@ def handle_message(event):
 @handler.add(MessageEvent, message=ImageMessage)
 def handle_image(event):
 	try:
-		# 顔検出ができたら顔認証を行う
-		valified = face_client.face.verify_face_to_person(
-			face_id = detected_faces[0].face_id,
-			person_group_id = PERSON_GROUP_ID,
-			person_id = PERSON_ID_YOSIZAWA
-		)
+		# メッセージIDを受け取る
+		message_id = event.message.id
+		# メッセージIDに含まれるmessage_contentを抽出する
+		message_content = line_bot_api.get_message_content(message_id)
+		# contentの画像データをバイナリデータとして扱えるようにする
+		image = BytesIO(message_content.content)
+
+		# Detect from streamで顔検出
+		detected_faces = face_client.face.detect_with_stream(image)
+		print(detected_faces)
 		# 認証結果に応じて処理を変える
 		if valified:
-			if valified.is_identical:
-				# 顔認証が一致した場合（スコアもつけて返す）
-				text = 'この方は吉沢亮ですね！！\n(score:{:.3f})'.format(valified.confidence)
+			# 検出された顔の最初のIDを取得
+			text = detected_faces[0].face_id
+
+			# 顔検出ができたら顔認証を行う
+			valified = face_client.face.verify_face_to_person(
+				face_id = detected_faces[0].face_id,
+				person_group_id = PERSON_GROUP_ID,
+				person_id = PERSON_ID_AUDREY
+			)
+			# 認証結果に応じて処理を変える
+			if valified:
+				if valified.is_identical:
+					# 顔認証が一致した場合（スコアもつけて返す）
+					text = 'この方は吉沢亮ですね！！\n(score:{:.3f})'.format(valified.confidence)
+				else:
+					# 顔認証が一致した場合（スコアもつけて返す）
+					text = 'この方は吉沢亮ではありません\n(score:{:.3f})'.format(valified.confidence)
 			else:
-				# 顔認証が一致した場合（スコアもつけて返す）
-				text = 'この方は吉沢亮ではありません\n(score:{:.3f})'.format(valified.confidence)
+				text = '識別できませんでした。'
 		else:
-			text = '識別できませんでした。'
+			# 検出されない場合のメッセージ
+			text = "写真から顔が検出できませんでした。他の画像で試してください。"
 	except:
 		# エラー時のメッセージ
-		text = "写真から顔が検出できませんでした。他の画像で試してください。"
+		text = "error"
 	# LINEチャネルを通じてメッセージを返答
 	line_bot_api.reply_message(
 		event.reply_token,
