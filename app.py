@@ -80,7 +80,6 @@ def handle_image(event):
 			)
 			# 認証結果に応じて処理を変える
 			if valified:
-				valified.confidenc *= NUM
 				if valified.is_identical:
 					# 顔認証が一致した場合（スコアもつけて返す）
 					text = 'スコア{:.3f}％\nあなたは吉沢亮ですね'.format(valified.confidenc)
@@ -97,7 +96,7 @@ def handle_image(event):
 		text = "error!!" 
 	# LINEチャネルを通じてメッセージを返答
 	line_bot_api.reply_message(
-		event.reply_token,       
+		event.reply_token,
 		TextSendMessage(text=text)
 	)
 
