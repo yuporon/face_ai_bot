@@ -21,15 +21,15 @@ YOUR_CHANNEL_SECRET = os.getenv('YOUR_CHANNEL_SECRET')
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
-YOUR_FACE_API_KEY = os.environ["YOUR_FACE_API_KEY"]
-YOUR_FACE_API_ENDPOINT = os.environ["YOUR_FACE_API_ENDPOINT"]
+YOUR_FACE_API_KEY = os.environ['YOUR_FACE_API_KEY']
+YOUR_FACE_API_ENDPOINT = os.environ['YOUR_FACE_API_ENDPOINT']
 face_client = FaceClient(
 	YOUR_FACE_API_ENDPOINT,
 	CognitiveServicesCredentials(YOUR_FACE_API_KEY)
 )
 
 PERSON_GROUP_ID = os.getenv('PERSON_GROUP_ID')
-PERSON_ID_YOSIZAWA = os.getenv('PERSON_ID_YOSIZAWA')
+PERSON_ID_AUDREY = os.getenv('PERSON_ID_AUDREY')
 
 @app.route("/callback", methods=['POST'])
 def callback():
@@ -75,7 +75,7 @@ def handle_image(event):
 			valified = face_client.face.verify_face_to_person(
 				face_id = detected_faces[0].face_id,
 				person_group_id = PERSON_GROUP_ID,
-				person_id = PERSON_ID_YOSIZAWA
+				person_id = PERSON_ID_AUDREY
 			)
 			# 認証結果に応じて処理を変える
 			if valified:
