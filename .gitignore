@@ -177,7 +177,7 @@ Thumbs.db
 # website: http://jupyter.org/
 
 */.ipynb_checkpoints/*
-
+face-api.ipynb
 # IPython
 
 # Remove previous ipynb_checkpoints
