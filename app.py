@@ -61,21 +61,21 @@ def handle_message(event):
 def handle_image(event):
 	try:
 		# 顔検出ができたら顔認証を行う
-			valified = face_client.face.verify_face_to_person(
-				face_id = detected_faces[0].face_id,
-				person_group_id = PERSON_GROUP_ID,
-				person_id = PERSON_ID_YOSIZAWA
-			)
-			# 認証結果に応じて処理を変える
-			if valified:
-				if valified.is_identical:
-					# 顔認証が一致した場合（スコアもつけて返す）
-					text = 'この方は吉沢亮ですね！！\n(score:{:.3f})'.format(valified.confidence)
-				else:
-					# 顔認証が一致した場合（スコアもつけて返す）
-					text = 'この方は吉沢亮ではありません\n(score:{:.3f})'.format(valified.confidence)
+		valified = face_client.face.verify_face_to_person(
+			face_id = detected_faces[0].face_id,
+			person_group_id = PERSON_GROUP_ID,
+			person_id = PERSON_ID_YOSIZAWA
+		)
+		# 認証結果に応じて処理を変える
+		if valified:
+			if valified.is_identical:
+				# 顔認証が一致した場合（スコアもつけて返す）
+				text = 'この方は吉沢亮ですね！！\n(score:{:.3f})'.format(valified.confidence)
 			else:
-				text = '識別できませんでした。'
+				# 顔認証が一致した場合（スコアもつけて返す）
+				text = 'この方は吉沢亮ではありません\n(score:{:.3f})'.format(valified.confidence)
+		else:
+			text = '識別できませんでした。'
 	except:
 		# エラー時のメッセージ
 		text = "写真から顔が検出できませんでした。他の画像で試してください。"
