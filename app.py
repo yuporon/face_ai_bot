@@ -80,12 +80,13 @@ def handle_image(event):
 			)
 			# 認証結果に応じて処理を変える
 			if valified:
+				score = round(float(valified.confidenc), 3) * int(NUM)
 				if valified.is_identical:
 					# 顔認証が一致した場合（スコアもつけて返す）
-					text = 'スコア{:.3f}％\nあなたは吉沢亮ですね'.format(valified.confidenc)
+					text = 'スコア{:.1f}％\nあなたは吉沢亮ですね'.format(score)
 				else:
 					# 顔認証が一致した場合（スコアもつけて返す）
-					text = 'スコア{:.3f}％\nあなたは吉沢亮ではないですね'.format(valified.confidenc)
+					text = 'スコア{:.1f}％\nあなたは吉沢亮ではないですね'.format(score)
 			else:
 				text = '識別できませんでした。'
 		else:
@@ -93,7 +94,7 @@ def handle_image(event):
 			text = "写真から顔が検出できませんでした。他の画像で試してください。"
 	except:
 		# エラー時のメッセージ
-		text = "error!!" 
+		text = "error!!"
 	# LINEチャネルを通じてメッセージを返答
 	line_bot_api.reply_message(
 		event.reply_token,
